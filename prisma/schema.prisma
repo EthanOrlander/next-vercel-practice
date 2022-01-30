@@ -15,6 +15,7 @@ model User {
   image     String?
   role      Role     @default(USER)
   bookmarks Link[]
+  // todos     ToDo[]
 }
 
 enum Role {
@@ -32,4 +33,24 @@ model Link {
   imageUrl    String
   category    String
   users       User[]
+}
+
+model ToDo {
+  id          String    @id @default(uuid())
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime  @updatedAt
+  title       String
+  description String?
+  done        Boolean   @default(false)
+  dueDate     DateTime?
+  // project     Project   @relation(fields: [projectId], references: [id])
+  // projectId   String
+  // user        User      @relation(fields: [userId], references: [id])
+  // userId      String
+}
+
+model Project {
+  id    String @id @default(uuid())
+  title String
+  // ToDo  ToDo[]
 }
