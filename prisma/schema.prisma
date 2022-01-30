@@ -7,30 +7,50 @@ generator client {
   provider = "prisma-client-js"
 }
 
-model Link {
-  id          String   @id @default(uuid())
-  index       Int      @default(autoincrement())
-  title       String
-  description String
-  url         String
-  imageUrl    String
-  category    String
-  createdAt   DateTime @default(now())
-  updatedAt   DateTime @updatedAt
-  users       User[]
-}
-
 model User {
   id        String   @id @default(uuid())
-  email     String?  @unique
-  image     String?
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
-  favorites Link[]
+  email     String?  @unique
+  image     String?
   role      Role     @default(USER)
+  bookmarks Link[]
+  // todos     ToDo[]
 }
 
 enum Role {
   USER
   ADMIN
+}
+
+model Link {
+  id          String   @id @default(uuid())
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+  title       String
+  description String
+  url         String
+  imageUrl    String
+  category    String
+  users       User[]
+}
+
+model ToDo {
+  id          String    @id @default(uuid())
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime  @updatedAt
+  title       String
+  description String?
+  done        Boolean   @default(false)
+  dueDate     DateTime?
+  // project     Project   @relation(fields: [projectId], references: [id])
+  // projectId   String
+  // user        User      @relation(fields: [userId], references: [id])
+  // userId      String
+}
+
+model Project {
+  id    String @id @default(uuid())
+  title String
+  // ToDo  ToDo[]
 }
